@@ -66,6 +66,11 @@ export interface ConfigState {
      */
     timezone: string;
     useEvict: boolean;
+    /**
+     * websocketMultiplexerEnabled controls whether list watches use the WebSocket multiplexer.
+     * Undefined means "inherit the environment default".
+     */
+    websocketMultiplexerEnabled?: boolean;
     [key: string]: any;
   };
 }
@@ -90,6 +95,7 @@ export const initialState: ConfigState = {
     timezone: storedSettings.timezone || defaultTimezone(),
     sidebarSortAlphabetically: storedSettings.sidebarSortAlphabetically || false,
     useEvict: storedSettings.useEvict || true,
+    websocketMultiplexerEnabled: storedSettings.websocketMultiplexerEnabled ?? undefined,
   },
 };
 

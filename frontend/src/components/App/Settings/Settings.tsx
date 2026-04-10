@@ -15,12 +15,17 @@
  */
 
 import Box from '@mui/material/Box';
+import Link from '@mui/material/Link';
 import Switch from '@mui/material/Switch';
 import Typography from '@mui/material/Typography';
 import { capitalize } from 'lodash';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import {
+  getDefaultWebsocketMultiplexerEnabled,
+  getWebsocketMultiplexerEnabled,
+} from '../../../helpers/websocketMultiplexer';
 import LocaleSelect from '../../../i18n/LocaleSelect/LocaleSelect';
 import { setAppSettings } from '../../../redux/configSlice';
 import { defaultTableRowsPerPageOptions } from '../../../redux/configSlice';
@@ -45,6 +50,7 @@ export default function Settings() {
   const storedRowsPerPageOptions = settingsObj.tableRowsPerPageOptions;
   const storedSortSidebar = settingsObj.sidebarSortAlphabetically;
   const storedUseEvict = settingsObj.useEvict;
+  const storedWebsocketMultiplexerEnabled = settingsObj.websocketMultiplexerEnabled;
   const [selectedTimezone, setSelectedTimezone] = useState<string>(
     storedTimezone || Intl.DateTimeFormat().resolvedOptions().timeZone
   );
@@ -53,6 +59,11 @@ export default function Settings() {
   const dispatch = useDispatch();
   const themeName = useTypedSelector(state => state.theme.name);
   const appThemes = useAppThemes();
+  const websocketMultiplexerDefaultEnabled = getDefaultWebsocketMultiplexerEnabled();
+  const websocketMultiplexerEnabled = getWebsocketMultiplexerEnabled(
+    storedWebsocketMultiplexerEnabled
+  );
+  const websocketMultiplexerOverridden = typeof storedWebsocketMultiplexerEnabled === 'boolean';
 
   useEffect(() => {
     dispatch(
@@ -82,6 +93,7 @@ export default function Settings() {
   const evictLabelID = 'use-evict-label';
   const tableRowsLabelID = 'rows-per-page-label';
   const timezoneLabelID = 'timezone-label';
+  const websocketMultiplexerLabelID = 'websocket-multiplexer-label';
 
   return (
     <SectionBox
@@ -163,6 +175,66 @@ export default function Settings() {
           },
         ]}
       />
+      <SectionBox
+        title={t('translation|Experimental features')}
+        headerProps={{
+          headerStyle: 'subsection',
+        }}
+      >
+        <NameValueTable
+          rows={[
+            {
+              name: t('translation|WebSocket multiplexer'),
+              nameID: websocketMultiplexerLabelID,
+              value: (
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, flexWrap: 'wrap' }}>
+                    <Switch
+                      color="primary"
+                      checked={websocketMultiplexerEnabled}
+                      onChange={e => {
+                        dispatch(
+                          setAppSettings({
+                            websocketMultiplexerEnabled: e.target.checked,
+                          })
+                        );
+                      }}
+                      inputProps={{
+                        'aria-labelledby': websocketMultiplexerLabelID,
+                      }}
+                    />
+                    {websocketMultiplexerOverridden ? (
+                      <Link
+                        component="button"
+                        type="button"
+                        onClick={() => {
+                          dispatch(
+                            setAppSettings({
+                              websocketMultiplexerEnabled: undefined,
+                            })
+                          );
+                        }}
+                        sx={{
+                          fontSize: '0.875rem',
+                          cursor: 'pointer',
+                        }}
+                      >
+                        {t('translation|Reset to default')}
+                      </Link>
+                    ) : (
+                      <Typography variant="body2" color="text.secondary">
+                        {websocketMultiplexerDefaultEnabled
+                          ? t('translation|Using the environment default: enabled')
+                          : t('translation|Using the environment default: disabled')}
+                      </Typography>
+                    )}
+                  </Box>
+                </Box>
+              ),
+            },
+          ]}
+        />
+      </SectionBox>
       <Box
         sx={{
           mt: '2',

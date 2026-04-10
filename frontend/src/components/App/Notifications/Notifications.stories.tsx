@@ -21,6 +21,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { MemoryRouter } from 'react-router-dom';
 import { getTestDate } from '../../../helpers/testHelpers';
+import { initialState as configInitialState } from '../../../redux/configSlice';
 import Notifications from './Notifications';
 import { Notification } from './notificationsSlice';
 
@@ -45,11 +46,19 @@ const createStore = (notifications: Notification[] = [], clusters = {}) =>
   configureStore({
     reducer: {
       notifications: (state = { notifications }) => state,
-      config: (state = { clusters }) => state,
+      config: (
+        state = {
+          ...configInitialState,
+          clusters,
+        }
+      ) => state,
     },
     preloadedState: {
       notifications: { notifications },
-      config: { clusters },
+      config: {
+        ...configInitialState,
+        clusters,
+      },
     },
   });
 
