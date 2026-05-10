@@ -205,6 +205,8 @@
   "Verbs": "動詞",
   "RuntimeClass": "ランタイムクラス",
   "Secrets": "シークレット",
+  "This Service has no selector, so it does not target Pods directly": "",
+  "Pod Name": "",
   "Services": "サービス",
   "Map": "マップ",
   "Workloads": "ワークロード",

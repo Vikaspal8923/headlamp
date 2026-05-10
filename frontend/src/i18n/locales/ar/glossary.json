@@ -205,6 +205,8 @@
   "Verbs": "الأفعال",
   "RuntimeClass": "فئة التشغيل",
   "Secrets": "الأسرار",
+  "This Service has no selector, so it does not target Pods directly": "",
+  "Pod Name": "",
   "Services": "الخدمات",
   "Map": "خريطة",
   "Workloads": "أحمال العمل",

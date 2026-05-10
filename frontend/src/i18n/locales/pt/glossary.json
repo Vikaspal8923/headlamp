@@ -205,6 +205,8 @@
   "Verbs": "Verbos",
   "RuntimeClass": "RuntimeClass",
   "Secrets": "Secrets",
+  "This Service has no selector, so it does not target Pods directly": "",
+  "Pod Name": "",
   "Services": "Services",
   "Map": "",
   "Workloads": "Workloads",

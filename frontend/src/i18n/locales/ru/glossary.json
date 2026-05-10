@@ -205,6 +205,8 @@
   "Verbs": "Глаголы",
   "RuntimeClass": "RuntimeClass",
   "Secrets": "Секреты",
+  "This Service has no selector, so it does not target Pods directly": "",
+  "Pod Name": "",
   "Services": "Сервисы",
   "Map": "Карта",
   "Workloads": "Рабочие нагрузки",
